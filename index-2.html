@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setu Digital — Websites & Chatbots for Your Business</title>
+<meta name="description" content="Setu Digital builds websites and chatbots for small businesses. Get a professional online presence and a bot that answers customers 24/7.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #12161d;
+    --surface: #1a202b;
+    --surface-2: #202838;
+    --line: #2c3444;
+    --text: #e9ecf1;
+    --muted: #8b93a3;
+    --amber: #e8a23d;
+    --amber-dim: #b57e30;
+    --teal: #5fb3ad;
+    --teal-dim: #3c7975;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(232,162,61,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,162,61,0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events:none;
+    z-index:0;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px; position:relative; z-index:1;}
+  .visually-hidden{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0);}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:2px solid var(--amber); outline-offset:3px;
+  }
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(18,22,29,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 24px; max-width:1080px; margin:0 auto;
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-size:1.15rem; font-weight:700;}
+  .logo-mark{
+    width:30px; height:30px; border:1.5px solid var(--amber);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--amber);
+    transform:rotate(45deg);
+  }
+  .logo-mark span{transform:rotate(-45deg);}
+  .nav-links{display:flex; gap:32px; font-size:0.95rem; color:var(--muted);}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    background:var(--amber); color:#161a1f; padding:9px 18px;
+    border-radius:2px; font-weight:600; font-size:0.9rem;
+  }
+  .nav-cta:hover{background:#f0ae4d;}
+  .nav-toggle{display:none; background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer;}
+
+  @media(max-width:760px){
+    .nav-links{
+      position:fixed; top:66px; left:0; right:0; background:var(--surface);
+      flex-direction:column; gap:0; border-bottom:1px solid var(--line);
+      max-height:0; overflow:hidden; transition:max-height 0.3s ease;
+    }
+    .nav-links.open{max-height:300px;}
+    .nav-links a{padding:16px 24px; border-bottom:1px solid var(--line);}
+    .nav-toggle{display:block;}
+  }
+
+  /* HERO */
+  .hero{padding:88px 0 96px; position:relative;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--teal);
+    letter-spacing:0.08em; text-transform:uppercase; margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--teal);}
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}}
+  .hero h1{font-size:clamp(2.1rem, 4.2vw, 3.4rem); line-height:1.08; margin-bottom:22px;}
+  .hero h1 em{font-style:normal; color:var(--amber);}
+  .hero p.lead{color:var(--muted); font-size:1.08rem; max-width:46ch; margin-bottom:32px;}
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:13px 24px;
+    border-radius:2px; font-weight:600; font-size:0.95rem; border:1px solid transparent;
+    cursor:pointer; transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--amber); color:#161a1f;}
+  .btn-primary:hover{background:#f0ae4d;}
+  .btn-ghost{border-color:var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--muted);}
+
+  /* Chat demo — signature element */
+  .chat-demo{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    overflow:hidden; box-shadow:0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .chat-head{
+    padding:14px 18px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px; background:var(--surface-2);
+  }
+  .chat-dot{width:9px; height:9px; border-radius:50%; background:var(--teal);}
+  .chat-title{font-size:0.85rem; color:var(--muted);}
+  .chat-title b{color:var(--text);}
+  .chat-body{padding:20px 18px; min-height:260px; display:flex; flex-direction:column; gap:12px; justify-content:flex-end;}
+  .bubble{
+    max-width:82%; padding:10px 14px; border-radius:12px; font-size:0.92rem;
+    opacity:0; transform:translateY(6px); animation:rise 0.4s ease forwards;
+  }
+  .bubble.user{align-self:flex-end; background:var(--amber-dim); color:#181a15; border-bottom-right-radius:3px;}
+  .bubble.bot{align-self:flex-start; background:var(--surface-2); border:1px solid var(--line); border-bottom-left-radius:3px;}
+  @keyframes rise{to{opacity:1; transform:translateY(0);}}
+  .chat-input{
+    border-top:1px solid var(--line); padding:12px 18px; display:flex; gap:10px; align-items:center;
+    color:var(--muted); font-size:0.85rem;
+  }
+  .chat-input .dash{flex:1; height:1px; background:var(--line);}
+
+  /* SECTION shell */
+  section{padding:80px 0; position:relative; border-top:1px solid var(--line);}
+  .section-head{margin-bottom:44px; max-width:60ch;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:clamp(1.6rem,3vw,2.2rem);}
+  .section-head p{color:var(--muted); margin-top:12px; font-size:1rem;}
+
+  /* SERVICES as spec sheets */
+  .services{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  @media(max-width:760px){.services{grid-template-columns:1fr;}}
+  .spec-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:28px;
+    position:relative;
+  }
+  .spec-card::before{
+    content:attr(data-tag); position:absolute; top:20px; right:24px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--muted);
+    letter-spacing:0.05em;
+  }
+  .spec-card h3{font-size:1.3rem; margin-bottom:10px; color:var(--amber);}
+  .spec-card p{color:var(--muted); font-size:0.95rem; margin-bottom:18px;}
+  .spec-list{list-style:none; display:flex; flex-direction:column; gap:9px;}
+  .spec-list li{
+    font-size:0.9rem; padding-left:20px; position:relative; color:var(--text);
+  }
+  .spec-list li::before{
+    content:"→"; position:absolute; left:0; color:var(--teal); font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* PORTFOLIO */
+  .portfolio-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media(max-width:860px){.portfolio-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.portfolio-grid{grid-template-columns:1fr;}}
+  .work-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px; overflow:hidden;
+  }
+  .work-thumb{
+    height:120px; background:
+      repeating-linear-gradient(135deg, var(--surface-2), var(--surface-2) 10px, #232b3b 10px, #232b3b 20px);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; color:var(--muted);
+  }
+  .work-info{padding:16px 18px;}
+  .work-info h4{font-size:1rem; margin-bottom:4px; font-family:'Space Grotesk';}
+  .work-info span{font-size:0.82rem; color:var(--muted);}
+  .portfolio-note{
+    margin-top:24px; font-size:0.85rem; color:var(--muted);
+    border-left:2px solid var(--amber); padding:10px 16px; background:var(--surface);
+  }
+
+  /* PRICING as quote sheet */
+  .pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media(max-width:860px){.pricing-grid{grid-template-columns:1fr;}}
+  .price-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:30px 26px;
+    display:flex; flex-direction:column;
+  }
+  .price-card.featured{border-color:var(--amber); position:relative;}
+  .price-card.featured::after{
+    content:"MOST CHOSEN"; position:absolute; top:-11px; left:26px;
+    background:var(--amber); color:#161a1f; font-family:'IBM Plex Mono', monospace;
+    font-size:0.65rem; padding:3px 10px; letter-spacing:0.05em; border-radius:2px;
+  }
+  .price-card h3{font-size:1.1rem; color:var(--muted); font-weight:500; margin-bottom:6px;}
+  .price-tag{font-family:'Space Grotesk'; font-size:2rem; font-weight:700; margin-bottom:4px;}
+  .price-tag span{font-size:0.95rem; color:var(--muted); font-weight:400;}
+  .price-sub{font-size:0.82rem; color:var(--muted); margin-bottom:22px;}
+  .price-card ul{list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; flex:1;}
+  .price-card ul li{font-size:0.88rem; padding-left:20px; position:relative;}
+  .price-card ul li::before{content:"✓"; position:absolute; left:0; color:var(--teal);}
+  .support-badge{
+    display:flex; align-items:center; gap:8px; font-size:0.82rem; color:var(--teal);
+    background:rgba(95,179,173,0.08); border:1px solid rgba(95,179,173,0.25);
+    padding:8px 12px; border-radius:4px; margin-bottom:16px;
+  }
+  .support-badge::before{content:"🛠"; font-size:0.9rem;}
+  .price-card .btn{width:100%; justify-content:center;}
+
+  /* CONTACT */
+  .contact-shell{
+    background:var(--surface); border:1px solid var(--line); border-radius:6px;
+    padding:40px; display:grid; grid-template-columns:0.9fr 1.1fr; gap:40px;
+  }
+  @media(max-width:800px){.contact-shell{grid-template-columns:1fr; padding:28px;}}
+  .contact-info h3{font-size:1.4rem; margin-bottom:12px;}
+  .contact-info p{color:var(--muted); font-size:0.95rem; margin-bottom:22px;}
+  .contact-detail{display:flex; gap:10px; font-size:0.9rem; margin-bottom:12px; color:var(--text);}
+  .contact-detail b{color:var(--muted); font-weight:500; min-width:80px; font-family:'IBM Plex Mono', monospace; font-size:0.78rem; text-transform:uppercase; padding-top:2px;}
+  form{display:flex; flex-direction:column; gap:16px;}
+  .field{display:flex; flex-direction:column; gap:6px;}
+  label{font-size:0.82rem; color:var(--muted);}
+  input, select, textarea{
+    background:var(--bg); border:1px solid var(--line); color:var(--text);
+    padding:11px 14px; border-radius:3px; font-family:'IBM Plex Sans'; font-size:0.92rem;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--amber);}
+  textarea{resize:vertical; min-height:90px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+  form .btn{margin-top:6px;}
+  .form-status{font-size:0.85rem; color:var(--teal); min-height:1.2em;}
+
+  .terms-box{
+    background:var(--bg); border:1px solid var(--line); border-radius:4px;
+    padding:16px 18px; font-size:0.84rem; color:var(--muted);
+  }
+  .terms-box p{color:var(--text); margin-bottom:8px; font-size:0.86rem;}
+  .terms-box ul{list-style:none; display:flex; flex-direction:column; gap:7px; margin-bottom:14px;}
+  .terms-box ul li{padding-left:16px; position:relative;}
+  .terms-box ul li::before{content:"–"; position:absolute; left:0; color:var(--amber);}
+  .terms-check{
+    display:flex; align-items:flex-start; gap:10px; cursor:pointer;
+    padding-top:12px; border-top:1px solid var(--line); color:var(--text); font-size:0.87rem;
+  }
+  .terms-check input{width:17px; height:17px; margin-top:2px; flex-shrink:0; accent-color:var(--amber);}
+  .btn:disabled{opacity:0.45; cursor:not-allowed; transform:none !important;}
+
+  footer{border-top:1px solid var(--line); padding:32px 0; text-align:center; color:var(--muted); font-size:0.85rem;}
+  footer a{color:var(--amber);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo"><span class="logo-mark"><span>S</span></span> Setu Digital</div>
+    <div class="nav-links" id="navLinks">
+      <a href="#services">Services</a>
+      <a href="#work">Our Work</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="nav-cta">Get a Quote</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" style="border-top:none;">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Websites &amp; Chatbots</div>
+        <h1>Your shop deserves a website. <em>Your customers deserve instant answers.</em></h1>
+        <p class="lead">We design and build websites and chatbots for small businesses — so people can find you on Google and get answered even when you're busy on the shop floor.</p>
+        <div class="btn-row">
+          <a href="#contact" class="btn btn-primary">Start your project</a>
+          <a href="#work" class="btn btn-ghost">See our work</a>
+        </div>
+      </div>
+
+      <div class="chat-demo" aria-hidden="true">
+        <div class="chat-head">
+          <span class="chat-dot"></span>
+          <span class="chat-title"><b>Sharma Mobile Shop</b> · Assistant</span>
+        </div>
+        <div class="chat-body" id="chatBody"></div>
+        <div class="chat-input"><span class="dash"></span> replies in seconds <span class="dash"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">What we build</div>
+        <h2>Two things, done properly</h2>
+        <p>No bloated packages. Pick a website, a chatbot, or both — built to fit your business, not a template pretending to.</p>
+      </div>
+      <div class="services">
+        <div class="spec-card" data-tag="WEB">
+          <h3>Websites</h3>
+          <p>A site that loads fast, works on any phone, and tells people exactly what you offer.</p>
+          <ul class="spec-list">
+            <li>Business &amp; shop websites</li>
+            <li>Portfolios &amp; personal sites</li>
+            <li>Online stores with payment</li>
+            <li>Shows up when people Google you</li>
+          </ul>
+        </div>
+        <div class="spec-card" data-tag="BOT">
+          <h3>Chatbots</h3>
+          <p>A bot that answers common questions on your website or WhatsApp — day or night.</p>
+          <ul class="spec-list">
+            <li>Answers FAQs automatically</li>
+            <li>Shares prices, hours &amp; location</li>
+            <li>Collects leads while you sleep</li>
+            <li>Works on your website or WhatsApp</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Recent projects</div>
+        <h2>A few things we've shipped</h2>
+      </div>
+      <div class="portfolio-grid">
+        <div class="work-card">
+          <div class="work-thumb">DEMO — retail site</div>
+          <div class="work-info"><h4>Sharma Mobile Shop</h4><span>Business website</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-thumb">DEMO — support bot</div>
+          <div class="work-info"><h4>Order Status Bot</h4><span>WhatsApp chatbot</span></div>
+        </div>
+        <div class="work-card">
+          <div class="work-thumb">DEMO — portfolio</div>
+          <div class="work-info"><h4>Freelancer Portfolio</h4><span>Personal website</span></div>
+        </div>
+      </div>
+      <p class="portfolio-note">These three are placeholder demos — swap in real client screenshots and links as you complete projects. Until then, they show visitors the kind of work you do.</p>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Pricing</div>
+        <h2>Simple packages, clear cost</h2>
+        <p>Pick a website tier, a chatbot tier, or both — combo price is simply the two added together. Final quote may vary with pages, features and timeline.</p>
+      </div>
+
+      <h3 style="font-size:1.05rem; color:var(--muted); margin-bottom:16px; font-weight:500;">Websites</h3>
+      <div class="pricing-grid" style="margin-bottom:44px;">
+        <div class="price-card">
+          <h3>Normal Website</h3>
+          <div class="price-tag">$500</div>
+          <div class="price-sub">Simple 1–3 page site</div>
+          <ul>
+            <li>Home, About, Contact pages</li>
+            <li>Mobile-friendly design</li>
+            <li>Contact form</li>
+            <li>7-day delivery</li>
+          </ul>
+          <div class="support-badge">7 days free support after delivery</div>
+          <a href="#contact" class="btn btn-ghost">Enquire</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Business / Standard</h3>
+          <div class="price-tag">$2,500</div>
+          <div class="price-sub">Full multi-page business site</div>
+          <ul>
+            <li>Up to 8–10 pages</li>
+            <li>Custom design &amp; branding</li>
+            <li>Google search setup</li>
+          </ul>
+          <div class="support-badge">30 days free support after delivery</div>
+          <a href="#contact" class="btn btn-primary">Enquire</a>
+        </div>
+        <div class="price-card">
+          <h3>Advanced / Custom</h3>
+          <div class="price-tag">$7,000</div>
+          <div class="price-sub">E-commerce or complex builds</div>
+          <ul>
+            <li>Online store + payments</li>
+            <li>Admin panel for products</li>
+            <li>Custom features &amp; integrations</li>
+          </ul>
+          <div class="support-badge">60 days free support after delivery</div>
+          <a href="#contact" class="btn btn-ghost">Enquire</a>
+        </div>
+      </div>
+
+      <h3 style="font-size:1.05rem; color:var(--muted); margin-bottom:16px; font-weight:500;">Chatbots</h3>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Normal Chatbot</h3>
+          <div class="price-tag">$149</div>
+          <div class="price-sub">Rule-based FAQ &amp; lead bot</div>
+          <ul>
+            <li>Answers common questions</li>
+            <li>Shares hours, pricing, location</li>
+            <li>Collects visitor contact info</li>
+          </ul>
+          <div class="support-badge">7 days free support after delivery</div>
+          <a href="#contact" class="btn btn-ghost">Enquire</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Standard Chatbot</h3>
+          <div class="price-tag">$399</div>
+          <div class="price-sub">Powered by ChatGPT / Gemini</div>
+          <ul>
+            <li>Understands natural language</li>
+            <li>Handles open-ended questions</li>
+            <li>Trained on your business info</li>
+          </ul>
+          <div class="support-badge">15 days free support after delivery</div>
+          <a href="#contact" class="btn btn-primary">Enquire</a>
+        </div>
+        <div class="price-card">
+          <h3>Chatbot on Rent</h3>
+          <div class="price-tag">$100 <span>/ month</span></div>
+          <div class="price-sub">Don't want to buy outright?</div>
+          <ul>
+            <li>No upfront cost</li>
+            <li>Cancel anytime</li>
+            <li>We host &amp; maintain it</li>
+          </ul>
+          <div class="support-badge">Support included while active</div>
+          <a href="#contact" class="btn btn-ghost">Enquire</a>
+        </div>
+      </div>
+      <p class="portfolio-note" style="margin-top:24px;">Want both? Combo price = website tier + chatbot tier added together. Example: Normal Website + Standard Chatbot = $500 + $399 = $899. Prices in USD, payment via PayPal — see below. Fixes or changes requested after the free support window ends are quoted separately — see full terms below.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Get in touch</div>
+        <h2>Tell us about your project</h2>
+      </div>
+      <div class="contact-shell">
+        <div class="contact-info">
+          <h3>Let's build it</h3>
+          <p>Fill the form and we'll reply within a day with a quote. Prefer to talk directly? Reach out below.</p>
+          <div class="contact-detail"><b>Phone</b> +91 00000 00000</div>
+          <div class="contact-detail"><b>Email</b> hello@setudigital.example</div>
+          <div class="contact-detail"><b>WhatsApp</b> Chat with us</div>
+
+          <!--
+            PAYPAL SETUP — read before publishing:
+            1. Create a PayPal Business account, then set up your PayPal.me link
+               (paypal.me/yourusername) or a specific invoice per client.
+            2. Replace the href below with your real PayPal.me link.
+            PayPal doesn't use QR codes for this — a link is how clients pay you,
+            works the same as a QR would on a customer's phone.
+          -->
+          <a href="https://paypal.me/yourusername" class="btn btn-primary" style="margin-top:18px; width:100%; justify-content:center;" target="_blank" rel="noopener">Pay via PayPal</a>
+          <p style="font-size:0.78rem; color:var(--muted); margin-top:10px;">For international clients. Send the exact quoted amount as "Goods and Services" so it's covered by buyer protection.</p>
+        </div>
+
+        <!--
+          FORM SETUP — this form sends via EmailJS (dashboard.emailjs.com).
+          Service ID, Template ID and Public Key are already filled in below.
+          IMPORTANT: open your EmailJS template and make sure it has variables
+          named {{name}}, {{contact}}, {{project_type}}, {{budget}}, {{details}}
+          so the fields map correctly — rename them in the template if needed.
+        -->
+        <form id="quoteForm">
+          <input type="hidden" name="subject" value="New project enquiry — Setu Digital">
+
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone or email</label>
+              <input type="text" id="phone" name="contact" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="type">What do you need?</label>
+            <select id="type" name="project_type">
+              <option>Business website</option>
+              <option>Portfolio website</option>
+              <option>Online store</option>
+              <option>Chatbot</option>
+              <option>Website + chatbot</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="budget">Budget range</label>
+            <select id="budget" name="budget">
+              <option>Under $500</option>
+              <option>$500 – $2,500</option>
+              <option>$2,500 – $7,000</option>
+              <option>$7,000+</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="details">Tell us a bit more</label>
+            <textarea id="details" name="details" placeholder="e.g. I run a mobile shop and want a site showing our products and a bot to answer store timing questions"></textarea>
+          </div>
+
+          <div class="terms-box">
+            <p><strong>Before you submit — please read:</strong></p>
+            <ul>
+              <li>Free support window depends on your chosen plan (shown in the Pricing section above — 7 to 60 days depending on tier).</li>
+              <li>Fixes, edits or new features requested after the free support window ends will be quoted and charged separately.</li>
+              <li>Delivery timelines begin once full project details and any required content (text, images, logo) are received from you.</li>
+              <li>Payment is due as agreed before final files/access are handed over, unless a milestone plan is agreed in writing.</li>
+            </ul>
+            <label class="terms-check">
+              <input type="checkbox" id="termsAgree" required>
+              <span>I have read and agree to the above terms.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Send enquiry</button>
+          <div class="form-status" id="formStatus"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Setu Digital · Built with GitHub Pages</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Hero chat demo — looping conversation
+  const conversation = [
+    { who:'user', text:"Aaj shop kitne baje band hogi?" },
+    { who:'bot',  text:"We're open till 9 PM today, including Sunday 🙂" },
+    { who:'user', text:"iPhone 15 available hai?" },
+    { who:'bot',  text:"Yes, in stock — starting ₹58,999. Want directions to the shop?" },
+  ];
+  const chatBody = document.getElementById('chatBody');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0;
+
+  function renderBubble(msg){
+    const div = document.createElement('div');
+    div.className = 'bubble ' + msg.who;
+    div.textContent = msg.text;
+    chatBody.appendChild(div);
+    while(chatBody.children.length > 4){ chatBody.removeChild(chatBody.firstChild); }
+  }
+
+  function tick(){
+    renderBubble(conversation[i % conversation.length]);
+    i++;
+  }
+
+  if(!reduceMotion){
+    tick();
+    setInterval(tick, 1900);
+  } else {
+    conversation.forEach(renderBubble);
+  }
+
+  // EmailJS setup — sends the contact form straight to your inbox
+  emailjs.init({ publicKey: "2-ESnvmkIoYpuJcAI" });
+
+  const form = document.getElementById('quoteForm');
+  const status = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('submitBtn');
+  const termsCheckbox = document.getElementById('termsAgree');
+  const detailsField = document.getElementById('details');
+
+  // Submit stays disabled until the terms checkbox is ticked
+  termsCheckbox.addEventListener('change', () => {
+    submitBtn.disabled = !termsCheckbox.checked;
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    if(!termsCheckbox.checked){
+      status.textContent = 'Please agree to the terms above before submitting.';
+      return;
+    }
+
+    status.textContent = 'Sending...';
+
+    // Stamp the agreement + timestamp into the message itself — this becomes
+    // your record that the customer accepted the terms before the form went through.
+    const agreementNote = `\n\n[Terms & Conditions agreed by customer at ${new Date().toString()}]`;
+    const originalDetails = detailsField.value;
+    detailsField.value = originalDetails + agreementNote;
+
+    emailjs.sendForm('service_28ym595', 'template_r6fmtq5', form)
+      .then(() => {
+        status.textContent = "Sent! We'll reply within a day.";
+        form.reset();
+        submitBtn.disabled = true;
+      })
+      .catch((err) => {
+        status.textContent = 'Something went wrong — please try again or email us directly.';
+        detailsField.value = originalDetails; // restore on failure so the customer can retry cleanly
+        console.error('EmailJS error:', err);
+      });
+  });
+</script>
+
+</body>
+</html>
